@@ -1,12 +1,10 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.8-slim-buster
+FROM python:3.7.3-alpine3.9 as base
+
+RUN pip install Flask==2.0.3
 
 WORKDIR /app
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY . .
-
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+COPY app.py /app/
+ENV FLASK_APP=app.py
+CMD flask run -h 0.0.0 -p 5000
